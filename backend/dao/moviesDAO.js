@@ -1,5 +1,5 @@
-import { ObjectId } from "mongodb";
-
+import mongodb from "mongodb";
+const ObjectId = mongodb.ObjectId;
 let movies;
 
 export default class MoviesDAO {
@@ -20,10 +20,10 @@ export default class MoviesDAO {
   } = {}) {
     let query;
     if (filters) {
-      if ("title" in filter) {
+      if ("title" in filters) {
         query = { $text: { $search: filters["title"] } };
       } else if ("rated" in filters) {
-        query = { "rated}": { $eq: filters["rated"] } };
+        query = { rated: { $eq: filters["rated"] } };
       }
     }
     let cursor;
@@ -46,14 +46,14 @@ export default class MoviesDAO {
       ratings = await movies.distinct("rated");
       return ratings;
     } catch (e) {
-      console.error(`unable to get ratings, ${e}`);
+      console.error(`unable to get ratings, $(e)`);
       return ratings;
     }
   }
-  static async getMovieById() {
+  static async getMovieById(id) {
     try {
-      return (
-        await movies.aggregate([
+      return await movies
+        .aggregate([
           {
             $match: { _id: new ObjectId(id) },
           },
@@ -65,9 +65,8 @@ export default class MoviesDAO {
               as: "reviews",
             },
           },
-        ]),
-        next()
-      );
+        ])
+        .next();
     } catch (e) {
       console.error(`something went wrong in getMovieById: ${e}`);
       throw e;

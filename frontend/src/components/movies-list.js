@@ -79,7 +79,6 @@ const MoviesList = (props) => {
                   onChange={onChangeSearchTitle}
                 />
               </Form.Group>
-
               <Button variant="primary" type="button" onClick={findByTitle}>
                 Search
               </Button>
@@ -88,7 +87,7 @@ const MoviesList = (props) => {
               <Form.Group>
                 <Form.Control as="select" onChange={onChangeSearchRating}>
                   {ratings.map((rating) => {
-                    return <option value={rating}>{rating}</option>;
+                    return <option value={rating} key={rating}>{rating}</option>;
                   })}
                 </Form.Control>
               </Form.Group>
@@ -101,7 +100,7 @@ const MoviesList = (props) => {
         <Row>
           {movies.map((movie) => {
             return (
-              <Col>
+              <Col key={movie._id}>
                 <Card style={{ width: "18rem" }}>
                   <Card.Img src={movie.poster + "/100px180"} />
                   <Card.Body>

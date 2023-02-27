@@ -37,7 +37,7 @@ function App() {
         </Navbar.Collapse>
       </Navbar>
       <Routes>
-        <Route exact path="/" component={MoviesList}></Route>
+        <Route path="/" element={<MoviesList />} exact></Route>
         <Route
           path="/movies/:id/review"
           render={(props) => <AddReview {...props} user={user} />}
